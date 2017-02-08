@@ -18,6 +18,9 @@ public class ConsistentHashRouter{
 	private SortedMap<Long,VirtualNode> ring = new TreeMap<Long,VirtualNode>();	
 	private MD5Hash hashfunction = new MD5Hash();	
 
+	/**
+	* vnodeCount 每个物理节点可以对应几个虚拟节点，一般设置为1
+	*/
 	public ConsistentHashRouter(Collection<PhysicalNode> pNodes, int vnodeCount) {
 		for (PhysicalNode pNode : pNodes) {
 			addNode(pNode,vnodeCount);
@@ -42,7 +45,10 @@ public class ConsistentHashRouter{
             }
         }
     }
-    
+    /**
+    * key可以是任意的字符串，不特指hash环上的key
+    *	eg: 可以对应业务上用户的名字加ID，一个请求的标识位等
+    */
     public PhysicalNode getNode(String key){
         if (ring.isEmpty()) {
             return null;
